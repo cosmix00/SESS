@@ -667,3 +667,196 @@ function renderApp() {
 // Start application
 
 renderApp();
+// =====================================
+// PROFILE
+// =====================================
+
+let profile =
+    JSON.parse(
+        localStorage.getItem(
+            "smartPantryProfile"
+        )
+    ) || {
+        name: "Prashansa",
+        email: ""
+    };
+
+
+function openProfile() {
+
+    document
+        .querySelectorAll(".page")
+        .forEach(page => {
+
+            page.classList.remove(
+                "active"
+            );
+
+        });
+
+
+    document
+        .getElementById(
+            "profilePage"
+        )
+        .classList.add(
+            "active"
+        );
+
+
+    document
+        .querySelectorAll(
+            ".nav-button"
+        )
+        .forEach(button => {
+
+            button.classList.remove(
+                "active"
+            );
+
+        });
+
+
+    loadProfile();
+
+}
+
+
+function closeProfile() {
+
+    document
+        .getElementById(
+            "profilePage"
+        )
+        .classList.remove(
+            "active"
+        );
+
+
+    document
+        .getElementById(
+            "dashboardPage"
+        )
+        .classList.add(
+            "active"
+        );
+
+
+    const homeButton =
+        document.querySelector(
+            ".nav-button"
+        );
+
+
+    if (homeButton) {
+        homeButton.classList.add(
+            "active"
+        );
+    }
+
+}
+
+
+function saveProfile() {
+
+    const name =
+        document
+            .getElementById(
+                "profileName"
+            )
+            .value
+            .trim();
+
+
+    const email =
+        document
+            .getElementById(
+                "profileEmail"
+            )
+            .value
+            .trim();
+
+
+    if (name === "") {
+
+        alert(
+            "Please enter your name."
+        );
+
+        return;
+    }
+
+
+    profile.name = name;
+
+    profile.email = email;
+
+
+    localStorage.setItem(
+        "smartPantryProfile",
+        JSON.stringify(profile)
+    );
+
+
+    loadProfile();
+
+
+    alert(
+        "Profile saved!"
+    );
+
+}
+
+
+function loadProfile() {
+
+    const initial =
+        profile.name
+            ? profile.name
+                .charAt(0)
+                .toUpperCase()
+            : "P";
+
+
+    document.getElementById(
+        "profileInitial"
+    ).textContent =
+        initial;
+
+
+    document.getElementById(
+        "largeProfileInitial"
+    ).textContent =
+        initial;
+
+
+    document.getElementById(
+        "displayName"
+    ).textContent =
+        profile.name;
+
+
+    document.getElementById(
+        "displayEmail"
+    ).textContent =
+        profile.email ||
+        "Smart Pantry User";
+
+
+    document.getElementById(
+        "profileName"
+    ).value =
+        profile.name;
+
+
+    document.getElementById(
+        "profileEmail"
+    ).value =
+        profile.email;
+
+}
+
+
+// Load profile when app starts
+
+loadProfile();
