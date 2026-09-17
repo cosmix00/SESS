@@ -1,0 +1,64 @@
+!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0"
+>
+<title>Smart Pantry — Profile</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="app">
+<!-- HEADER -->
+<header>
+<div>
+<p class="small-title">ACCOUNT</p>
+<h1>My Profile</h1>
+</div>
+<button
+class="profile"
+onclick="window.location.href='index.html'"
+>
+←
+</button>
+</header>
+ 
+<!-- PROFILE PAGE -->
+<section class="page active">
+ 
+<div class="profile-card">
+ 
+<div class="profile-avatar" id="profileInitial">P</div>
+ 
+<label>Name</label>
+<input
+type="text"
+id="profileName"
+placeholder="Your name"
+>
+ 
+<label>Email</label>
+<input
+type="email"
+id="profileEmail"
+placeholder="you@example.com"
+>
+ 
+<button
+class="save-button"
+onclick="saveProfile()"
+>
+Save Profile
+</button>
+ 
+</div>
+ 
+</section>
+ 
+</div>
+ 
+<script src="profile.js"></script>
+</body>
+</html>

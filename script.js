@@ -1,12 +1,13 @@
-/ ------------------------------------
+// =====================================
 // SMART PANTRY
-// ------------------------------------
-
-// Load saved items.
-// If there aren't any, use example groceries.
+// =====================================
 
 let pantryItems =
-    JSON.parse(localStorage.getItem("pantryItems")) || [
+    JSON.parse(
+        localStorage.getItem(
+            "pantryItems"
+        )
+    ) || [
 
         {
             name: "Rice",
@@ -35,87 +36,175 @@ let pantryItems =
     ];
 
 
-// ------------------------------------
-// SAVE DATA
-// ------------------------------------
+// =====================================
+// FOOD ICONS
+// =====================================
+
+function getFoodIcon(name) {
+
+    const item =
+        name.toLowerCase();
+
+
+    if (item.includes("rice"))
+        return "🍚";
+
+    if (item.includes("coffee"))
+        return "☕";
+
+    if (item.includes("cereal"))
+        return "🥣";
+
+    if (item.includes("milk"))
+        return "🥛";
+
+    if (item.includes("bread"))
+        return "🍞";
+
+    if (item.includes("egg"))
+        return "🥚";
+
+    if (item.includes("apple"))
+        return "🍎";
+
+    if (item.includes("banana"))
+        return "🍌";
+
+    if (item.includes("pasta"))
+        return "🍝";
+
+    if (item.includes("flour"))
+        return "🌾";
+
+    if (item.includes("sugar"))
+        return "🧂";
+
+    if (item.includes("oil"))
+        return "🫗";
+
+    if (item.includes("potato"))
+        return "🥔";
+
+    if (item.includes("tomato"))
+        return "🍅";
+
+    if (item.includes("cookie"))
+        return "🍪";
+
+
+    return "🥫";
+}
+
+
+// =====================================
+// SAVE
+// =====================================
 
 function saveData() {
 
     localStorage.setItem(
+
         "pantryItems",
-        JSON.stringify(pantryItems)
+
+        JSON.stringify(
+            pantryItems
+        )
+
     );
 
 }
 
 
-// ------------------------------------
-// CHANGE PAGE
-// ------------------------------------
+// =====================================
+// NAVIGATION
+// =====================================
 
-function showPage(pageId, button) {
+function showPage(
+    pageId,
+    button
+) {
 
     document
         .querySelectorAll(".page")
         .forEach(page => {
-            page.classList.remove("active");
+
+            page.classList.remove(
+                "active"
+            );
+
         });
 
 
     document
         .getElementById(pageId)
-        .classList.add("active");
+        .classList.add(
+            "active"
+        );
 
 
     document
-        .querySelectorAll(".nav-button")
+        .querySelectorAll(
+            ".nav-button"
+        )
         .forEach(nav => {
-            nav.classList.remove("active");
+
+            nav.classList.remove(
+                "active"
+            );
+
         });
 
 
-    button.classList.add("active");
+    button.classList.add(
+        "active"
+    );
 
 
     renderApp();
 }
 
 
-// ------------------------------------
-// OPEN ADD ITEM
-// ------------------------------------
+// =====================================
+// MODAL
+// =====================================
 
 function openAddModal() {
 
     document
-        .getElementById("addModal")
-        .classList.add("show");
+        .getElementById(
+            "addModal"
+        )
+        .classList.add(
+            "show"
+        );
 
 }
 
-
-// ------------------------------------
-// CLOSE ADD ITEM
-// ------------------------------------
 
 function closeAddModal() {
 
     document
-        .getElementById("addModal")
-        .classList.remove("show");
+        .getElementById(
+            "addModal"
+        )
+        .classList.remove(
+            "show"
+        );
 
 }
 
 
-// ------------------------------------
-// ADD NEW ITEM
-// ------------------------------------
+// =====================================
+// ADD ITEM
+// =====================================
 
 function addItem() {
 
     const name =
         document
-            .getElementById("itemName")
+            .getElementById(
+                "itemName"
+            )
             .value
             .trim();
 
@@ -123,7 +212,9 @@ function addItem() {
     const weight =
         Number(
             document
-                .getElementById("itemWeight")
+                .getElementById(
+                    "itemWeight"
+                )
                 .value
         );
 
@@ -131,13 +222,17 @@ function addItem() {
     const limit =
         Number(
             document
-                .getElementById("itemLimit")
+                .getElementById(
+                    "itemLimit"
+                )
                 .value
         );
 
 
     if (
         name === "" ||
+        !Number.isFinite(weight) ||
+        !Number.isFinite(limit) ||
         weight < 0 ||
         limit < 0
     ) {
@@ -152,9 +247,9 @@ function addItem() {
 
     pantryItems.push({
 
-        name: name,
-        weight: weight,
-        limit: limit
+        name,
+        weight,
+        limit
 
     });
 
@@ -162,15 +257,15 @@ function addItem() {
     saveData();
 
 
-    // Clear form
-
     document.getElementById(
         "itemName"
     ).value = "";
 
+
     document.getElementById(
         "itemWeight"
     ).value = "";
+
 
     document.getElementById(
         "itemLimit"
@@ -183,42 +278,44 @@ function addItem() {
 }
 
 
-// ------------------------------------
+// =====================================
 // DELETE ITEM
-// ------------------------------------
+// =====================================
 
 function deleteItem(index) {
 
-    const confirmed =
+    const item =
+        pantryItems[index];
+
+
+    if (
         confirm(
-            `Remove ${pantryItems[index].name} from your pantry?`
+            `Remove ${item.name} from your pantry?`
+        )
+    ) {
+
+        pantryItems.splice(
+            index,
+            1
         );
 
+        saveData();
 
-    if (!confirmed) {
-        return;
+        renderApp();
+
     }
 
-
-    pantryItems.splice(index, 1);
-
-    saveData();
-
-    renderApp();
 }
 
 
-// ------------------------------------
+// =====================================
 // SENSOR WEIGHT
-// ------------------------------------
+// =====================================
 
-// For now the slider simulates
-// data from your load cell.
-//
-// Later this function can receive
-// the actual ESP32 sensor reading.
-
-function updateWeight(index, newWeight) {
+function updateWeight(
+    index,
+    newWeight
+) {
 
     pantryItems[index].weight =
         Number(newWeight);
@@ -230,11 +327,14 @@ function updateWeight(index, newWeight) {
 }
 
 
-// ------------------------------------
-// CHANGE RESTOCK LIMIT
-// ------------------------------------
+// =====================================
+// THRESHOLD
+// =====================================
 
-function updateLimit(index, newLimit) {
+function updateLimit(
+    index,
+    newLimit
+) {
 
     pantryItems[index].limit =
         Number(newLimit);
@@ -246,20 +346,23 @@ function updateLimit(index, newLimit) {
 }
 
 
-// ------------------------------------
-// LOW STOCK CHECK
-// ------------------------------------
+// =====================================
+// LOW STOCK
+// =====================================
 
 function isLow(item) {
 
-    return item.weight <= item.limit;
+    return (
+        item.weight <=
+        item.limit
+    );
 
 }
 
 
-// ------------------------------------
-// PANTRY PAGE
-// ------------------------------------
+// =====================================
+// PANTRY
+// =====================================
 
 function renderPantry() {
 
@@ -272,7 +375,9 @@ function renderPantry() {
     container.innerHTML = "";
 
 
-    if (pantryItems.length === 0) {
+    if (
+        pantryItems.length === 0
+    ) {
 
         container.innerHTML = `
 
@@ -282,13 +387,17 @@ function renderPantry() {
                     🥫
                 </div>
 
-                <h3>Your pantry is empty</h3>
+                <h3>
+                    Your pantry is empty
+                </h3>
 
                 <p>
-                    Add your first grocery item.
+                    Tap Add to add your
+                    first grocery.
                 </p>
 
             </div>
+
         `;
 
         return;
@@ -302,15 +411,37 @@ function renderPantry() {
                 isLow(item);
 
 
-            // Used for visual progress bar
+            const icon =
+                getFoodIcon(
+                    item.name
+                );
 
-            let percentage =
-                item.limit > 0
-                    ? (
+
+            /*
+             * Progress is relative to
+             * twice the user's threshold.
+             *
+             * At threshold = about 50%.
+             */
+
+            let percentage;
+
+            if (item.limit > 0) {
+
+                percentage =
+                    (
                         item.weight /
-                        (item.limit * 2)
-                      ) * 100
-                    : 100;
+                        (
+                            item.limit *
+                            2
+                        )
+                    ) * 100;
+
+            } else {
+
+                percentage = 100;
+
+            }
 
 
             percentage =
@@ -330,33 +461,50 @@ function renderPantry() {
                     <div class="item-top">
 
                         <div class="item-name">
+
+                            <div class="food-icon">
+                                ${icon}
+                            </div>
+
                             ${item.name}
+
                         </div>
 
-                        <div
+
+                        <span
                             class="
                                 status
-                                ${low ? "low" : "good"}
+                                ${
+                                    low
+                                    ? "low"
+                                    : "good"
+                                }
                             "
                         >
 
                             ${
                                 low
-                                    ? "LOW STOCK"
-                                    : "ENOUGH"
+                                ? "LOW STOCK"
+                                : "IN STOCK"
                             }
 
-                        </div>
+                        </span>
 
                     </div>
 
 
                     <div class="weight">
 
-                        ${Math.round(item.weight)}
-                        <small>g</small>
+                        ${Math.round(
+                            item.weight
+                        )}
+
+                        <small>
+                            g
+                        </small>
 
                     </div>
+
 
                     <div class="weight-label">
                         Current measured weight
@@ -368,7 +516,11 @@ function renderPantry() {
                         <div
                             class="
                                 progress-bar
-                                ${low ? "low" : ""}
+                                ${
+                                    low
+                                    ? "low"
+                                    : ""
+                                }
                             "
 
                             style="
@@ -380,70 +532,104 @@ function renderPantry() {
                     </div>
 
 
-                    <p class="control-title">
+                    <div class="control-box">
 
-                        ⚖️ Simulate weight sensor:
-                        ${Math.round(item.weight)} g
+                        <div class="control-title">
 
-                    </p>
+                            <span>
+                                ⚖️ Sensor weight
+                            </span>
 
+                            <strong>
+                                ${Math.round(
+                                    item.weight
+                                )} g
+                            </strong>
 
-                    <input
-                        type="range"
-                        min="0"
-                        max="1000"
-                        step="10"
-
-                        value="${item.weight}"
-
-                        oninput="
-                            updateWeight(
-                                ${index},
-                                this.value
-                            )
-                        "
-                    >
+                        </div>
 
 
-                    <p class="control-title">
+                        <input
+                            type="range"
 
-                        🔔 Restock threshold:
-                        ${Math.round(item.limit)} g
+                            min="0"
+                            max="1000"
+                            step="10"
 
-                    </p>
+                            value="
+                                ${item.weight}
+                            "
+
+                            oninput="
+                                updateWeight(
+                                    ${index},
+                                    this.value
+                                )
+                            "
+                        >
+
+                    </div>
 
 
-                    <input
-                        type="range"
-                        min="0"
-                        max="1000"
-                        step="10"
+                    <div class="control-box">
 
-                        value="${item.limit}"
+                        <div class="control-title">
 
-                        oninput="
-                            updateLimit(
-                                ${index},
-                                this.value
-                            )
-                        "
-                    >
+                            <span>
+                                🔔 Restock level
+                            </span>
+
+                            <strong>
+                                ${Math.round(
+                                    item.limit
+                                )} g
+                            </strong>
+
+                        </div>
+
+
+                        <input
+                            type="range"
+
+                            min="0"
+                            max="1000"
+                            step="10"
+
+                            value="
+                                ${item.limit}
+                            "
+
+                            oninput="
+                                updateLimit(
+                                    ${index},
+                                    this.value
+                                )
+                            "
+                        >
+
+                    </div>
 
 
                     <div class="item-actions">
 
                         <span class="limit-text">
 
-                            Notify below
-                            ${Math.round(item.limit)} g
+                            ${
+                                low
+                                ? "⚠️ Add this item to your grocery list"
+                                : `You'll be alerted below ${Math.round(item.limit)} g`
+                            }
 
                         </span>
+
 
                         <button
                             class="delete-button"
 
                             onclick="
-                                deleteItem(${index})
+                                deleteItem(
+                                    ${index}
+                                )
                             "
                         >
                             Delete
@@ -457,12 +643,13 @@ function renderPantry() {
 
         }
     );
+
 }
 
 
-// ------------------------------------
+// =====================================
 // GROCERY LIST
-// ------------------------------------
+// =====================================
 
 function renderGroceryList() {
 
@@ -474,30 +661,34 @@ function renderGroceryList() {
 
     const lowItems =
         pantryItems.filter(
-            item => isLow(item)
+            item =>
+                isLow(item)
         );
 
 
     container.innerHTML = "";
 
 
-    if (lowItems.length === 0) {
+    if (
+        lowItems.length === 0
+    ) {
 
         container.innerHTML = `
 
             <div class="empty-message">
 
                 <div class="emoji">
-                    ✅
+                    🛍️
                 </div>
 
                 <h3>
-                    You're all stocked up!
+                    Grocery list is empty
                 </h3>
 
                 <p>
-                    Nothing currently needs
-                    restocking.
+                    We'll automatically add
+                    items when they're
+                    running low.
                 </p>
 
             </div>
@@ -508,57 +699,80 @@ function renderGroceryList() {
     }
 
 
-    lowItems.forEach(item => {
+    lowItems.forEach(
+        item => {
 
-        container.innerHTML += `
+            const icon =
+                getFoodIcon(
+                    item.name
+                );
 
-            <div class="grocery-item">
 
-                <input
-                    type="checkbox"
-                >
+            container.innerHTML += `
 
-                <div class="grocery-info">
+                <div class="grocery-item">
 
-                    <h3>
-                        ${item.name}
-                    </h3>
+                    <input
+                        type="checkbox"
+                    >
 
-                    <p>
 
-                        ${Math.round(item.weight)} g
-                        remaining
+                    <div class="food-icon">
+                        ${icon}
+                    </div>
 
-                        •
 
-                        Restock below
-                        ${Math.round(item.limit)} g
+                    <div class="grocery-info">
 
-                    </p>
+                        <h3>
+                            ${item.name}
+                        </h3>
+
+                        <p>
+
+                            ${Math.round(
+                                item.weight
+                            )} g remaining
+
+                            • Restock below
+
+                            ${Math.round(
+                                item.limit
+                            )} g
+
+                        </p>
+
+                    </div>
+
+
+                    <div
+                        class="
+                            grocery-warning
+                        "
+                    >
+                        ⚠️
+                    </div>
 
                 </div>
 
-                <span>
-                    ⚠️
-                </span>
+            `;
 
-            </div>
+        }
+    );
 
-        `;
-
-    });
 }
 
 
-// ------------------------------------
+// =====================================
 // DASHBOARD
-// ------------------------------------
+// =====================================
 
 function renderDashboard() {
 
     const lowItems =
         pantryItems.filter(
-            item => isLow(item)
+            item =>
+                isLow(item)
         );
 
 
@@ -583,23 +797,25 @@ function renderDashboard() {
     container.innerHTML = "";
 
 
-    if (lowItems.length === 0) {
+    if (
+        lowItems.length === 0
+    ) {
 
         container.innerHTML = `
 
             <div class="empty-message">
 
                 <div class="emoji">
-                    🎉
+                    ✨
                 </div>
 
                 <h3>
-                    Everything looks good!
+                    Pantry looking good!
                 </h3>
 
                 <p>
-                    No groceries need
-                    restocking.
+                    Everything is currently
+                    above its restock level.
                 </p>
 
             </div>
@@ -610,48 +826,64 @@ function renderDashboard() {
     }
 
 
-    lowItems.forEach(item => {
+    lowItems.forEach(
+        item => {
 
-        container.innerHTML += `
+            const icon =
+                getFoodIcon(
+                    item.name
+                );
 
-            <div class="grocery-item">
 
-                <span>
-                    ⚠️
-                </span>
+            container.innerHTML += `
 
-                <div class="grocery-info">
+                <div class="grocery-item">
 
-                    <h3>
-                        ${item.name}
-                    </h3>
+                    <div class="food-icon">
+                        ${icon}
+                    </div>
 
-                    <p>
 
-                        Only
-                        ${Math.round(item.weight)} g
-                        remaining
+                    <div class="grocery-info">
 
-                    </p>
+                        <h3>
+                            ${item.name}
+                        </h3>
+
+                        <p>
+
+                            Only
+
+                            ${Math.round(
+                                item.weight
+                            )} g
+
+                            remaining
+
+                        </p>
+
+                    </div>
+
+
+                    <span
+                        class="status low"
+                    >
+                        LOW
+                    </span>
 
                 </div>
 
-                <span class="status low">
-                    LOW
-                </span>
+            `;
 
-            </div>
-
-        `;
-
-    });
+        }
+    );
 
 }
 
 
-// ------------------------------------
-// RENDER EVERYTHING
-// ------------------------------------
+// =====================================
+// UPDATE APP
+// =====================================
 
 function renderApp() {
 
@@ -663,7 +895,5 @@ function renderApp() {
 
 }
 
-
-// Start application
 
 renderApp();
