@@ -940,3 +940,66 @@ rgba(0, 0, 0, 0.12);
 }
 }
 
+.profile {
+    width: 48px;
+    height: 48px;
+
+    border-radius: 16px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background:
+        rgba(255, 255, 255, 0.18);
+
+    backdrop-filter: blur(10px);
+
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.25);
+
+    font-size: 17px;
+    font-weight: bold;
+
+    color: white;
+    font-family: inherit;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.profile:active {
+    transform: scale(0.94);
+}
+
+.profile {
+    width: 48px;
+    height: 48px;
+
+    border-radius: 16px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background:
+        rgba(255, 255, 255, 0.18);
+
+    backdrop-filter: blur(10px);
+
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.25);
+
+    font-size: 17px;
+    font-weight: bold;
+
+    color: white;
+    font-family: inherit;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.profile:active {
+    transform: scale(0.94);
+}
