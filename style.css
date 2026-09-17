@@ -898,92 +898,45 @@ nav {
 }
 
 .modal-content input {
-    width: 100%;
-
-    padding:
-        14px 15px;
-
-    border:
-        1px solid #dce1dc;
-
-    background: #f9faf8;
-
-    border-radius: 13px;
-
-    font-size: 16px;
-
-    outline: none;
+width: 100%;
+padding: 13px;
+border: 1px solid #ccd2cc;
+border-radius: 10px;
+font-size: 16px;
 }
-
-.modal-content input:focus {
-    border-color:
-        var(--green);
-
-    background: white;
-}
-
 .modal-buttons {
-    display: flex;
-
-    gap: 11px;
-
-    margin-top: 25px;
+display: flex;
+gap: 10px;
+margin-top: 25px;
 }
-
 .modal-buttons button {
-    flex: 1;
-
-    border: none;
-
-    border-radius: 13px;
-
-    padding: 14px;
-
-    font-weight: 750;
-
-    cursor: pointer;
+flex: 1;
+padding: 13px;
+border: none;
+border-radius: 10px;
+font-weight: bold;
+cursor: pointer;
 }
-
 .cancel-button {
-    background: #eef0ed;
-
-    color:
-        var(--text);
+background: #eeeeee;
 }
-
 .save-button {
-    color: white;
-
-    background:
-        linear-gradient(
-            135deg,
-            var(--green),
-            var(--green-dark)
-        );
+background: #28783b;
+color: white;
 }
 
-
-/* ================================
-   DESKTOP PHONE PREVIEW
-================================ */
-
+/* DESKTOP /
 @media (min-width: 700px) {
-
-    body {
-        padding:
-            30px 0;
-    }
-
-    .app {
-        min-height: 850px;
-
-        border-radius: 35px;
-
-        overflow: hidden;
-
-        box-shadow:
-            0 20px 60px
-            rgba(20, 50, 30, 0.15);
-    }
-
+body {
+padding: 30px 0;
 }
+.app {
+min-height: 850px;
+border-radius: 25px;
+overflow: hidden;
+box-shadow:
+0 10px 40px
+rgba(0, 0, 0, 0.12);
+}
+}
+

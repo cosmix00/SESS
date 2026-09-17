@@ -14,10 +14,17 @@ content="width=device-width, initial-scale=1.0"
 <!-- HEADER -->
 <header>
 <div>
-<p class="small-title">MY HOME</p>
-<h1>Smart Pantry 🥫</h1>
+<p class="small-title">SMART KITCHEN</p>
+<h1>My Pantry</h1>
 </div>
-<div class="profile">P</div>
+<button
+    class="profile"
+    id="profileButton"
+    onclick="openProfile()"
+    aria-label="Open profile"
+>
+    <span id="profileInitial">P</span>
+</button>
 </header>
 
 <!-- DASHBOARD -->
@@ -75,6 +82,142 @@ low-stock items.
 </div>
 </div>
 <div id="groceryList"></div>
+</section>
+<!-- PROFILE PAGE -->
+<section id="profilePage" class="page">
+
+    <div class="profile-page-header">
+
+        <button
+            class="back-button"
+            onclick="closeProfile()"
+        >
+            ←
+        </button>
+
+        <h2>Profile</h2>
+
+    </div>
+
+
+    <div class="profile-card">
+
+        <div
+            class="large-profile"
+            id="largeProfileInitial"
+        >
+            P
+        </div>
+
+        <h2 id="displayName">
+            Prashansa
+        </h2>
+
+        <p id="displayEmail">
+            Smart Pantry User
+        </p>
+
+    </div>
+
+
+    <div class="settings-card">
+
+        <h3>Account</h3>
+
+        <label for="profileName">
+            Your name
+        </label>
+
+        <input
+            type="text"
+            id="profileName"
+            placeholder="Enter your name"
+        >
+
+
+        <label for="profileEmail">
+            Email
+        </label>
+
+        <input
+            type="email"
+            id="profileEmail"
+            placeholder="Enter your email"
+        >
+
+
+        <button
+            class="profile-save-button"
+            onclick="saveProfile()"
+        >
+            Save Profile
+        </button>
+
+    </div>
+
+
+    <div class="settings-card">
+
+        <h3>Smart Pantry Settings</h3>
+
+
+        <div class="setting-row">
+
+            <div>
+                <strong>
+                    🔔 Low Stock Alerts
+                </strong>
+
+                <p>
+                    Alert me when groceries
+                    need restocking
+                </p>
+            </div>
+
+            <label class="switch">
+
+                <input
+                    type="checkbox"
+                    id="notificationSetting"
+                    checked
+                >
+
+                <span class="switch-slider"></span>
+
+            </label>
+
+        </div>
+
+
+        <div class="setting-row">
+
+            <div>
+                <strong>
+                    🛒 Auto Grocery List
+                </strong>
+
+                <p>
+                    Automatically add low
+                    items to my grocery list
+                </p>
+            </div>
+
+            <label class="switch">
+
+                <input
+                    type="checkbox"
+                    id="autoGrocerySetting"
+                    checked
+                >
+
+                <span class="switch-slider"></span>
+
+            </label>
+
+        </div>
+
+    </div>
+
 </section>
 
 <!-- BOTTOM NAVIGATION -->
