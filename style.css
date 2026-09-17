@@ -1,0 +1,353 @@
+{
+box-sizing: border-box;
+margin: 0;
+padding: 0;
+}
+body {
+font-family:
+-apple-system,
+BlinkMacSystemFont,
+"Segoe UI",
+sans-serif;
+background: #eef2ed;
+color: #202420;
+}
+
+/* APP /
+.app {
+max-width: 500px;
+min-height: 100vh;
+margin: auto;
+background: #f8faf7;
+padding-bottom: 100px;
+}
+
+/* HEADER /
+header {
+display: flex;
+justify-content: space-between;
+align-items: center;
+padding: 25px 20px 15px;
+background: white;
+}
+header h1 {
+font-size: 25px;
+}
+.small-title {
+font-size: 11px;
+color: #778077;
+font-weight: bold;
+letter-spacing: 1px;
+margin-bottom: 3px;
+}
+.profile {
+width: 42px;
+height: 42px;
+background: #dcebdc;
+color: #247333;
+display: flex;
+justify-content: center;
+align-items: center;
+border-radius: 50%;
+font-weight: bold;
+}
+
+/* PAGES /
+.page {
+display: none;
+padding: 22px 18px;
+}
+.page.active {
+display: block;
+}
+.page h2 {
+margin-bottom: 4px;
+}
+.subtitle,
+.section-heading p {
+color: #7a817a;
+font-size: 14px;
+}
+
+/* DASHBOARD /
+.summary-grid {
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 12px;
+margin: 25px 0;
+}
+.summary-card {
+background: white;
+padding: 20px;
+border-radius: 18px;
+border: 1px solid #e3e7e2;
+}
+.summary-card span {
+font-size: 25px;
+}
+.summary-card h3 {
+font-size: 32px;
+margin-top: 12px;
+}
+.summary-card p {
+color: #777;
+font-size: 13px;
+}
+.warning {
+background: #fff8ed;
+}
+
+/* SECTION HEADING /
+.section-heading {
+display: flex;
+justify-content: space-between;
+align-items: center;
+margin-bottom: 18px;
+}
+.add-button {
+border: none;
+background: #28783b;
+color: white;
+padding: 11px 17px;
+border-radius: 12px;
+font-weight: bold;
+cursor: pointer;
+}
+
+/* PANTRY CARDS /
+.pantry-card {
+background: white;
+border-radius: 18px;
+padding: 18px;
+margin-bottom: 14px;
+border: 1px solid #e1e5df;
+}
+.item-top {
+display: flex;
+justify-content: space-between;
+align-items: center;
+}
+.item-name {
+font-size: 19px;
+font-weight: bold;
+}
+.status {
+padding: 6px 10px;
+border-radius: 20px;
+font-size: 11px;
+font-weight: bold;
+}
+.status.good {
+background: #e3f5e7;
+color: #237235;
+}
+.status.low {
+background: #ffe7e4;
+color: #c93d32;
+}
+
+/* WEIGHT /
+.weight {
+font-size: 30px;
+font-weight: bold;
+margin-top: 15px;
+}
+.weight-label {
+color: #818681;
+font-size: 12px;
+}
+
+/* PROGRESS BAR /
+.progress {
+width: 100%;
+height: 8px;
+background: #e9ece8;
+border-radius: 10px;
+margin: 12px 0;
+overflow: hidden;
+}
+.progress-bar {
+height: 100%;
+background: #3a8849;
+border-radius: 10px;
+}
+.progress-bar.low {
+background: #dc5045;
+}
+
+/* CONTROLS /
+.control-title {
+margin-top: 15px;
+font-size: 12px;
+color: #727872;
+}
+input[type="range"] {
+width: 100%;
+margin-top: 8px;
+accent-color: #28783b;
+}
+.item-actions {
+display: flex;
+justify-content: space-between;
+align-items: center;
+margin-top: 12px;
+}
+.limit-text {
+font-size: 13px;
+color: #666;
+}
+.delete-button {
+border: none;
+background: transparent;
+color: #d4443c;
+font-weight: bold;
+cursor: pointer;
+}
+
+/* GROCERY LIST /
+.grocery-item {
+display: flex;
+align-items: center;
+gap: 15px;
+background: white;
+padding: 17px;
+margin-bottom: 12px;
+border-radius: 16px;
+border: 1px solid #e1e5df;
+}
+.grocery-item input {
+width: 21px;
+height: 21px;
+accent-color: #28783b;
+}
+.grocery-info {
+flex: 1;
+}
+.grocery-info h3 {
+font-size: 17px;
+}
+.grocery-info p {
+color: #777;
+font-size: 12px;
+margin-top: 3px;
+}
+
+/* EMPTY MESSAGE /
+.empty-message {
+text-align: center;
+padding: 50px 20px;
+color: #777;
+}
+.empty-message .emoji {
+font-size: 50px;
+margin-bottom: 10px;
+}
+
+/* NAVIGATION /
+nav {
+position: fixed;
+bottom: 0;
+left: 50%;
+transform: translateX(-50%);
+width: 100%;
+max-width: 500px;
+background: white;
+display: flex;
+justify-content: space-around;
+border-top: 1px solid #ddd;
+padding:
+10px 10px
+calc(10px + env(safe-area-inset-bottom));
+}
+.nav-button {
+flex: 1;
+border: none;
+background: transparent;
+color: #8a8f89;
+display: flex;
+flex-direction: column;
+align-items: center;
+gap: 3px;
+font-size: 11px;
+cursor: pointer;
+}
+.nav-button span {
+font-size: 22px;
+}
+.nav-button.active {
+color: #28783b;
+font-weight: bold;
+}
+
+/* MODAL /
+.modal {
+display: none;
+position: fixed;
+inset: 0;
+background: rgba(0, 0, 0, 0.45);
+justify-content: center;
+align-items: center;
+padding: 20px;
+}
+.modal.show {
+display: flex;
+}
+.modal-content {
+width: 100%;
+max-width: 430px;
+background: white;
+border-radius: 20px;
+padding: 25px;
+}
+.modal-content h2 {
+margin-bottom: 20px;
+}
+.modal-content label {
+display: block;
+margin: 14px 0 6px;
+font-size: 13px;
+font-weight: bold;
+}
+.modal-content input {
+width: 100%;
+padding: 13px;
+border: 1px solid #ccd2cc;
+border-radius: 10px;
+font-size: 16px;
+}
+.modal-buttons {
+display: flex;
+gap: 10px;
+margin-top: 25px;
+}
+.modal-buttons button {
+flex: 1;
+padding: 13px;
+border: none;
+border-radius: 10px;
+font-weight: bold;
+cursor: pointer;
+}
+.cancel-button {
+background: #eeeeee;
+}
+.save-button {
+background: #28783b;
+color: white;
+}
+
+/* DESKTOP /
+@media (min-width: 700px) {
+body {
+padding: 30px 0;
+}
+.app {
+min-height: 850px;
+border-radius: 25px;
+overflow: hidden;
+box-shadow:
+0 10px 40px
+rgba(0, 0, 0, 0.12);
+}
+}
+

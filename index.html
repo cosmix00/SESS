@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0"
+>
+<title>Smart Pantry</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app">
+<!-- HEADER -->
+<header>
+<div>
+<p class="small-title">MY HOME</p>
+<h1>Smart Pantry 🥫</h1>
+</div>
+<div class="profile">P</div>
+</header>
+
+<!-- DASHBOARD -->
+<section id="dashboardPage" class="page active">
+<h2>Good morning 👋</h2>
+<p class="subtitle">
+Here's what's happening in your pantry.
+</p>
+
+<div class="summary-grid">
+<div class="summary-card">
+<span>📦</span>
+<h3 id="totalItems">0</h3>
+<p>Pantry Items</p>
+</div>
+<div class="summary-card warning">
+<span>⚠️</span>
+<h3 id="lowItems">0</h3>
+<p>Need Restocking</p>
+</div>
+</div>
+
+<div class="section-heading">
+<h2>Low Stock</h2>
+</div>
+<div id="dashboardLowStock"></div>
+</section>
+
+<!-- PANTRY PAGE -->
+<section id="pantryPage" class="page">
+<div class="section-heading">
+<div>
+<h2>My Pantry</h2>
+<p>Monitor your groceries</p>
+</div>
+<button
+class="add-button"
+onclick="openAddModal()"
+>
+Add
+</button>
+</div>
+<div id="pantryItems"></div>
+</section>
+
+<!-- GROCERY LIST -->
+<section id="groceryPage" class="page">
+<div class="section-heading">
+<div>
+<h2>Grocery List 🛒</h2>
+<p>
+Automatically generated from
+low-stock items.
+</p>
+</div>
+</div>
+<div id="groceryList"></div>
+</section>
+
+<!-- BOTTOM NAVIGATION -->
+<nav>
+<button
+class="nav-button active"
+onclick="showPage('dashboardPage', this)"
+>
+<span>⌂</span>
+Home
+</button>
+<button
+class="nav-button"
+onclick="showPage('pantryPage', this)"
+>
+<span>▣</span>
+Pantry
+</button>
+<button
+class="nav-button"
+onclick="showPage('groceryPage', this)"
+>
+<span>🛒</span>
+Grocery
+</button>
+</nav>
+</div>
+
+<!-- ADD ITEM MODAL -->
+<div id="addModal" class="modal">
+<div class="modal-content">
+<h2>Add Pantry Item</h2>
+<label>Grocery name</label>
+<input
+type="text"
+id="itemName"
+placeholder="Example: Rice"
+>
+
+<label>Current weight (grams)</label>
+<input
+type="number"
+id="itemWeight"
+placeholder="Example: 500"
+>
+
+<label>Restock below (grams)</label>
+<input
+type="number"
+id="itemLimit"
+placeholder="Example: 200"
+>
+
+<div class="modal-buttons">
+<button
+class="cancel-button"
+onclick="closeAddModal()"
+>
+Cancel
+</button>
+<button
+class="save-button"
+onclick="addItem()"
+>
+Add Item
+</button>
+</div>
+</div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
