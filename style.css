@@ -9,9 +9,9 @@
 }
 
 :root {
-    --green: #2f7d4a;
-    --green-dark: #1f6037;
-    --green-light: #dff2e5;
+    --pink: #ef3e90;
+    --pink-light: #f786d1;
+    --green-light: #ffc8d5e2;
 
     --cream: #f7f7f1;
     --white: #ffffff;
@@ -305,8 +305,8 @@ header h1 {
     background:
         linear-gradient(
             135deg,
-            var(--green),
-            var(--green-dark)
+            var(--pink),
+            var(--pink-light)
         );
 
     color: white;
