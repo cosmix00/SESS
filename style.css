@@ -1,5 +1,5 @@
 /* ================================
-   SMART PANTRY - MODERN UI
+   SMART FRIDGE - MODERN UI
 ================================ */
 
 * {
@@ -12,6 +12,9 @@
     --pink: #ef3e90;
     --pink-light: #f786d1;
     --green-light: #ffc8d5e2;
+
+    --green: var(--pink);
+    --green-dark: #b6216c;
 
     --cream: #f7f7f1;
     --white: #ffffff;
@@ -138,6 +141,15 @@ header h1 {
 
     font-size: 17px;
     font-weight: bold;
+
+    color: white;
+    font-family: inherit;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.profile:active {
+    transform: scale(0.94);
 }
 
 
@@ -335,10 +347,10 @@ header h1 {
 
 
 /* ================================
-   PANTRY CARD
+   FRIDGE CARD
 ================================ */
 
-.pantry-card {
+.fridge-card {
     background: white;
 
     border-radius: 24px;
@@ -360,7 +372,7 @@ header h1 {
         box-shadow 0.2s ease;
 }
 
-.pantry-card:hover {
+.fridge-card:hover {
     transform:
         translateY(-2px);
 
@@ -716,6 +728,189 @@ input[type="range"] {
 
 
 /* ================================
+   PROFILE PAGE
+================================ */
+
+.profile-card {
+    background: white;
+    border-radius: 24px;
+    padding: 26px;
+    box-shadow: 0 7px 24px rgba(30, 60, 40, 0.07);
+    border: 1px solid rgba(30, 70, 40, 0.06);
+    margin-bottom: 16px;
+    text-align: center;
+}
+
+.profile-avatar {
+    width: 72px;
+    height: 72px;
+    margin: 0 auto 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--pink), var(--pink-light));
+    color: white;
+    border-radius: 20px;
+    font-size: 28px;
+    font-weight: 800;
+}
+
+.profile-card h2 {
+    font-size: 21px;
+}
+
+.profile-card .subtitle {
+    text-align: center;
+}
+
+.settings-heading {
+    text-align: left;
+    font-size: 13px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin: 22px 0 14px;
+    font-weight: 800;
+}
+
+.account-row {
+    display: flex;
+    gap: 12px;
+    text-align: left;
+}
+
+.account-row > div {
+    flex: 1;
+}
+
+.profile-card label {
+    display: block;
+    margin: 0 0 7px;
+    font-size: 12px;
+    color: var(--muted);
+    font-weight: 700;
+    text-align: left;
+}
+
+.profile-card input {
+    width: 100%;
+    padding: 14px 15px;
+    border: 1px solid #dce1dc;
+    background: #f9faf8;
+    border-radius: 13px;
+    font-size: 16px;
+    outline: none;
+}
+
+.profile-card input:focus {
+    border-color: var(--pink);
+    background: white;
+}
+
+.profile-card .save-button {
+    width: 100%;
+    margin-top: 22px;
+    border: none;
+    border-radius: 13px;
+    padding: 14px;
+    font-weight: 750;
+    cursor: pointer;
+    color: white;
+    background: linear-gradient(135deg, var(--pink), var(--pink-light));
+}
+
+.settings-card {
+    text-align: left;
+}
+
+.settings-card .settings-heading {
+    margin-top: 0;
+}
+
+.setting-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 0;
+    border-top: 1px solid #eef0ec;
+}
+
+.setting-row:first-of-type {
+    border-top: none;
+}
+
+.setting-icon {
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f0f5ef;
+    border-radius: 12px;
+    font-size: 18px;
+}
+
+.setting-text {
+    flex: 1;
+}
+
+.setting-text h4 {
+    font-size: 14px;
+}
+
+.setting-text p {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 2px;
+}
+
+.toggle {
+    position: relative;
+    display: inline-block;
+    width: 46px;
+    height: 27px;
+    flex-shrink: 0;
+}
+
+.toggle input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.toggle-slider {
+    position: absolute;
+    cursor: pointer;
+    inset: 0;
+    background-color: #d8ddd7;
+    border-radius: 30px;
+    transition: 0.2s;
+}
+
+.toggle-slider::before {
+    position: absolute;
+    content: "";
+    height: 21px;
+    width: 21px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    border-radius: 50%;
+    transition: 0.2s;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.toggle input:checked + .toggle-slider {
+    background-color: var(--pink);
+}
+
+.toggle input:checked + .toggle-slider::before {
+    transform: translateX(19px);
+}
+
+
+/* ================================
    NAVIGATION
 ================================ */
 
@@ -898,109 +1093,44 @@ nav {
 }
 
 .modal-content input {
-width: 100%;
-padding: 13px;
-border: 1px solid #ccd2cc;
-border-radius: 10px;
-font-size: 16px;
+    width: 100%;
+    padding: 13px;
+    border: 1px solid #ccd2cc;
+    border-radius: 10px;
+    font-size: 16px;
 }
 .modal-buttons {
-display: flex;
-gap: 10px;
-margin-top: 25px;
+    display: flex;
+    gap: 10px;
+    margin-top: 25px;
 }
 .modal-buttons button {
-flex: 1;
-padding: 13px;
-border: none;
-border-radius: 10px;
-font-weight: bold;
-cursor: pointer;
+    flex: 1;
+    padding: 13px;
+    border: none;
+    border-radius: 10px;
+    font-weight: bold;
+    cursor: pointer;
 }
 .cancel-button {
-background: #eeeeee;
+    background: #eeeeee;
 }
 .save-button {
-background: #28783b;
-color: white;
+    background: #28783b;
+    color: white;
 }
 
-/* DESKTOP /
+/* DESKTOP */
 @media (min-width: 700px) {
-body {
-padding: 30px 0;
+    body {
+        padding: 30px 0;
+    }
+    .app {
+        min-height: 850px;
+        border-radius: 25px;
+        overflow: hidden;
+        box-shadow:
+            0 10px 40px
+            rgba(0, 0, 0, 0.12);
+    }
 }
-.app {
-min-height: 850px;
-border-radius: 25px;
-overflow: hidden;
-box-shadow:
-0 10px 40px
-rgba(0, 0, 0, 0.12);
-}
-}
-
-.profile {
-    width: 48px;
-    height: 48px;
-
-    border-radius: 16px;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    background:
-        rgba(255, 255, 255, 0.18);
-
-    backdrop-filter: blur(10px);
-
-    border:
-        1px solid
-        rgba(255, 255, 255, 0.25);
-
-    font-size: 17px;
-    font-weight: bold;
-
-    color: white;
-    font-family: inherit;
-    cursor: pointer;
-    transition: transform 0.2s ease;
-}
-
-.profile:active {
-    transform: scale(0.94);
-}
-
-.profile {
-    width: 48px;
-    height: 48px;
-
-    border-radius: 16px;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    background:
-        rgba(255, 255, 255, 0.18);
-
-    backdrop-filter: blur(10px);
-
-    border:
-        1px solid
-        rgba(255, 255, 255, 0.25);
-
-    font-size: 17px;
-    font-weight: bold;
-
-    color: white;
-    font-family: inherit;
-    cursor: pointer;
-    transition: transform 0.2s ease;
-}
-
-.profile:active {
-    transform: scale(0.94);
-}
-    

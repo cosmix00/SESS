@@ -1,4 +1,4 @@
-!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -6,7 +6,7 @@
 name="viewport"
 content="width=device-width, initial-scale=1.0"
 >
-<title>Smart Pantry — Profile</title>
+<title>Smart Fridge — Profile</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -24,41 +24,89 @@ onclick="window.location.href='index.html'"
 ←
 </button>
 </header>
- 
+
 <!-- PROFILE PAGE -->
 <section class="page active">
- 
+
 <div class="profile-card">
- 
+
 <div class="profile-avatar" id="profileInitial">P</div>
- 
-<label>Name</label>
+
+<h2 id="profileDisplayName">Your Name</h2>
+<p class="subtitle">Smart Fridge User</p>
+
+<h3 class="settings-heading">Account</h3>
+
+<div class="account-row">
+<div>
+<label>Your name</label>
 <input
 type="text"
 id="profileName"
 placeholder="Your name"
 >
- 
+</div>
+<div>
 <label>Email</label>
 <input
 type="email"
 id="profileEmail"
-placeholder="you@example.com"
+placeholder="Enter your email"
 >
- 
+</div>
+</div>
+
 <button
 class="save-button"
 onclick="saveProfile()"
 >
 Save Profile
 </button>
- 
+
 </div>
- 
+
+<div class="profile-card settings-card">
+
+<h3 class="settings-heading">Smart Fridge Settings</h3>
+
+<div class="setting-row">
+<div class="setting-icon">🔔</div>
+<div class="setting-text">
+<h4>Low Stock Alerts</h4>
+<p>Alert me when groceries need restocking</p>
+</div>
+<label class="toggle">
+<input
+type="checkbox"
+id="lowStockToggle"
+onchange="saveSettings()"
+>
+<span class="toggle-slider"></span>
+</label>
+</div>
+
+<div class="setting-row">
+<div class="setting-icon">🛒</div>
+<div class="setting-text">
+<h4>Auto Grocery List</h4>
+<p>Automatically add low items to my grocery list</p>
+</div>
+<label class="toggle">
+<input
+type="checkbox"
+id="autoGroceryToggle"
+onchange="saveSettings()"
+>
+<span class="toggle-slider"></span>
+</label>
+</div>
+
+</div>
+
 </section>
- 
+
 </div>
- 
+
 <script src="profile.js"></script>
 </body>
 </html>

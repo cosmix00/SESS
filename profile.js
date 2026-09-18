@@ -20,6 +20,11 @@ function loadProfile() {
             ? profile.name.charAt(0).toUpperCase()
             : "P";
 
+    document.getElementById("profileDisplayName").textContent =
+        profile.name
+            ? profile.name
+            : "Your Name";
+
 }
 
 function saveProfile() {
@@ -47,4 +52,48 @@ function saveProfile() {
 
 }
 
+
+// =====================================
+// SMART FRIDGE SETTINGS
+// =====================================
+
+function loadSettings() {
+
+    const settings =
+        JSON.parse(
+            localStorage.getItem("fridgeSettings")
+        ) || {
+            lowStockAlerts: true,
+            autoGroceryList: true
+        };
+
+    document.getElementById("lowStockToggle").checked =
+        settings.lowStockAlerts;
+
+    document.getElementById("autoGroceryToggle").checked =
+        settings.autoGroceryList;
+
+}
+
+function saveSettings() {
+
+    const settings = {
+
+        lowStockAlerts:
+            document.getElementById("lowStockToggle").checked,
+
+        autoGroceryList:
+            document.getElementById("autoGroceryToggle").checked
+
+    };
+
+    localStorage.setItem(
+        "fridgeSettings",
+        JSON.stringify(settings)
+    );
+
+}
+
+
 loadProfile();
+loadSettings();

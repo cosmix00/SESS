@@ -6,7 +6,7 @@
 name="viewport"
 content="width=device-width, initial-scale=1.0"
 >
-<title>Smart Pantry</title>
+<title>Smart Fridge</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -15,15 +15,14 @@ content="width=device-width, initial-scale=1.0"
 <header>
 <div>
 <p class="small-title">SMART KITCHEN</p>
-<h1>My Pantry</h1>
+<h1>My Fridge 🧊</h1>
 </div>
 <button
-    class="profile"
-    id="profileButton"
-    onclick="openProfile()"
-    aria-label="Open profile"
+class="profile"
+id="profileIcon"
+onclick="window.location.href='profile.html'"
 >
-    <span id="profileInitial">P</span>
+P
 </button>
 </header>
 
@@ -31,14 +30,14 @@ content="width=device-width, initial-scale=1.0"
 <section id="dashboardPage" class="page active">
 <h2>Good morning 👋</h2>
 <p class="subtitle">
-Here's what's happening in your pantry.
+Here's what's happening in your fridge.
 </p>
 
 <div class="summary-grid">
 <div class="summary-card">
-<span>📦</span>
+<span>🧊</span>
 <h3 id="totalItems">0</h3>
-<p>Pantry Items</p>
+<p>Fridge Items</p>
 </div>
 <div class="summary-card warning">
 <span>⚠️</span>
@@ -51,13 +50,21 @@ Here's what's happening in your pantry.
 <h2>Low Stock</h2>
 </div>
 <div id="dashboardLowStock"></div>
+
+<div class="section-heading">
+<h2>Recent Detections</h2>
+</div>
+<p class="subtitle" style="margin-bottom: 14px;">
+Simulated camera + weight sensor fusion — move a sensor slider on the Fridge page to log a detection.
+</p>
+<div id="activityFeed"></div>
 </section>
 
-<!-- PANTRY PAGE -->
-<section id="pantryPage" class="page">
+<!-- FRIDGE PAGE -->
+<section id="fridgePage" class="page">
 <div class="section-heading">
 <div>
-<h2>My Pantry</h2>
+<h2>My Fridge</h2>
 <p>Monitor your groceries</p>
 </div>
 <button
@@ -67,7 +74,7 @@ onclick="openAddModal()"
 Add
 </button>
 </div>
-<div id="pantryItems"></div>
+<div id="fridgeItems"></div>
 </section>
 
 <!-- GROCERY LIST -->
@@ -83,142 +90,6 @@ low-stock items.
 </div>
 <div id="groceryList"></div>
 </section>
-<!-- PROFILE PAGE -->
-<section id="profilePage" class="page">
-
-    <div class="profile-page-header">
-
-        <button
-            class="back-button"
-            onclick="closeProfile()"
-        >
-            ←
-        </button>
-
-        <h2>Profile</h2>
-
-    </div>
-
-
-    <div class="profile-card">
-
-        <div
-            class="large-profile"
-            id="largeProfileInitial"
-        >
-            P
-        </div>
-
-        <h2 id="displayName">
-            Prashansa
-        </h2>
-
-        <p id="displayEmail">
-            Smart Pantry User
-        </p>
-
-    </div>
-
-
-    <div class="settings-card">
-
-        <h3>Account</h3>
-
-        <label for="profileName">
-            Your name
-        </label>
-
-        <input
-            type="text"
-            id="profileName"
-            placeholder="Enter your name"
-        >
-
-
-        <label for="profileEmail">
-            Email
-        </label>
-
-        <input
-            type="email"
-            id="profileEmail"
-            placeholder="Enter your email"
-        >
-
-
-        <button
-            class="profile-save-button"
-            onclick="saveProfile()"
-        >
-            Save Profile
-        </button>
-
-    </div>
-
-
-    <div class="settings-card">
-
-        <h3>Smart Pantry Settings</h3>
-
-
-        <div class="setting-row">
-
-            <div>
-                <strong>
-                    🔔 Low Stock Alerts
-                </strong>
-
-                <p>
-                    Alert me when groceries
-                    need restocking
-                </p>
-            </div>
-
-            <label class="switch">
-
-                <input
-                    type="checkbox"
-                    id="notificationSetting"
-                    checked
-                >
-
-                <span class="switch-slider"></span>
-
-            </label>
-
-        </div>
-
-
-        <div class="setting-row">
-
-            <div>
-                <strong>
-                    🛒 Auto Grocery List
-                </strong>
-
-                <p>
-                    Automatically add low
-                    items to my grocery list
-                </p>
-            </div>
-
-            <label class="switch">
-
-                <input
-                    type="checkbox"
-                    id="autoGrocerySetting"
-                    checked
-                >
-
-                <span class="switch-slider"></span>
-
-            </label>
-
-        </div>
-
-    </div>
-
-</section>
 
 <!-- BOTTOM NAVIGATION -->
 <nav>
@@ -231,10 +102,10 @@ Home
 </button>
 <button
 class="nav-button"
-onclick="showPage('pantryPage', this)"
+onclick="showPage('fridgePage', this)"
 >
-<span>▣</span>
-Pantry
+<span>🧊</span>
+Fridge
 </button>
 <button
 class="nav-button"
@@ -249,12 +120,12 @@ Grocery
 <!-- ADD ITEM MODAL -->
 <div id="addModal" class="modal">
 <div class="modal-content">
-<h2>Add Pantry Item</h2>
+<h2>Add Fridge Item</h2>
 <label>Grocery name</label>
 <input
 type="text"
 id="itemName"
-placeholder="Example: Rice"
+placeholder="Example: Milk"
 >
 
 <label>Current weight (grams)</label>
@@ -291,3 +162,4 @@ Add Item
 <script src="script.js"></script>
 </body>
 </html>
+

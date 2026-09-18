@@ -1,39 +1,172 @@
 // =====================================
-// SMART PANTRY
+// SMART FRIDGE
 // =====================================
 
-let pantryItems =
+// Reflect saved profile initial in the header, if one is set.
+(function () {
+
+    const profile =
+        JSON.parse(
+            localStorage.getItem("userProfile")
+        );
+
+    if (profile && profile.name) {
+
+        const profileEl =
+            document.getElementById("profileIcon");
+
+        if (profileEl) {
+            profileEl.textContent =
+                profile.name.charAt(0).toUpperCase();
+        }
+
+    }
+
+})();
+
+
+let fridgeItems =
     JSON.parse(
         localStorage.getItem(
-            "pantryItems"
+            "fridgeItems"
         )
     ) || [
 
         {
-            name: "Rice",
+            name: "Milk",
             weight: 620,
             limit: 300
         },
 
         {
-            name: "Flour",
-            weight: 180,
-            limit: 250
+            name: "Eggs",
+            weight: 480,
+            limit: 200
         },
 
         {
-            name: "Coffee",
+            name: "Butter",
             weight: 160,
-            limit: 100
+            limit: 80
         },
 
         {
-            name: "Cereal",
-            weight: 80,
-            limit: 150
+            name: "Cheese",
+            weight: 220,
+            limit: 100
         }
 
     ];
+
+
+// =====================================
+// CAMERA + WEIGHT FUSION (SIMULATED)
+// =====================================
+
+// In the real system, a camera identifies WHICH item was
+// touched, and the weight sensor reports HOW MUCH changed.
+// We don't have real hardware yet, so this simulates that
+// fusion: moving an item's own sensor slider stands in for
+// "the camera confirmed this item, and the sensor reported
+// this new weight."
+
+let activityLog =
+    JSON.parse(
+        localStorage.getItem("activityLog")
+    ) || [];
+
+// Ignore tiny sensor jitter below this many grams so the
+// feed doesn't fill up with noise from small slider nudges.
+const DETECTION_THRESHOLD = 5;
+
+function logActivity(message) {
+
+    activityLog.unshift({
+        message,
+        time:
+            new Date().toLocaleTimeString(
+                [],
+                { hour: "2-digit", minute: "2-digit" }
+            )
+    });
+
+    // Keep only the most recent 10 events.
+    activityLog = activityLog.slice(0, 10);
+
+    localStorage.setItem(
+        "activityLog",
+        JSON.stringify(activityLog)
+    );
+
+}
+
+function renderActivityFeed() {
+
+    const container =
+        document.getElementById("activityFeed");
+
+    if (!container) {
+        return;
+    }
+
+    container.innerHTML = "";
+
+    if (activityLog.length === 0) {
+
+        container.innerHTML = `
+
+            <div class="empty-message">
+
+                <div class="emoji">
+                    📷
+                </div>
+
+                <h3>
+                    No detections yet
+                </h3>
+
+                <p>
+                    Move a sensor slider on the
+                    Fridge page to simulate a
+                    camera + weight detection.
+                </p>
+
+            </div>
+
+        `;
+
+        return;
+    }
+
+    activityLog.forEach(entry => {
+
+        container.innerHTML += `
+
+            <div class="grocery-item">
+
+                <div class="food-icon">
+                    📷
+                </div>
+
+                <div class="grocery-info">
+
+                    <h3>
+                        ${entry.message}
+                    </h3>
+
+                    <p>
+                        ${entry.time}
+                    </p>
+
+                </div>
+
+            </div>
+
+        `;
+
+    });
+
+}
 
 
 // =====================================
@@ -91,6 +224,21 @@ function getFoodIcon(name) {
     if (item.includes("cookie"))
         return "🍪";
 
+    if (item.includes("butter"))
+        return "🧈";
+
+    if (item.includes("cheese"))
+        return "🧀";
+
+    if (item.includes("yogurt") || item.includes("yoghurt"))
+        return "🥣";
+
+    if (item.includes("juice"))
+        return "🧃";
+
+    if (item.includes("water"))
+        return "💧";
+
 
     return "🥫";
 }
@@ -104,10 +252,10 @@ function saveData() {
 
     localStorage.setItem(
 
-        "pantryItems",
+        "fridgeItems",
 
         JSON.stringify(
-            pantryItems
+            fridgeItems
         )
 
     );
@@ -245,13 +393,18 @@ function addItem() {
     }
 
 
-    pantryItems.push({
+    fridgeItems.push({
 
         name,
         weight,
         limit
 
     });
+
+
+    logActivity(
+        `📷 Camera detected new item added: ${name}`
+    );
 
 
     saveData();
@@ -285,16 +438,20 @@ function addItem() {
 function deleteItem(index) {
 
     const item =
-        pantryItems[index];
+        fridgeItems[index];
 
 
     if (
         confirm(
-            `Remove ${item.name} from your pantry?`
+            `Remove ${item.name} from your fridge?`
         )
     ) {
 
-        pantryItems.splice(
+        logActivity(
+            `📷 Camera detected item removed entirely: ${item.name}`
+        );
+
+        fridgeItems.splice(
             index,
             1
         );
@@ -312,13 +469,50 @@ function deleteItem(index) {
 // SENSOR WEIGHT
 // =====================================
 
+// This slider simulates the fused camera + weight reading:
+// the camera has already confirmed WHICH item this is (you
+// selected its card), and the slider stands in for the
+// sensor reporting a new total weight for it.
+
 function updateWeight(
     index,
     newWeight
 ) {
 
-    pantryItems[index].weight =
+    const item =
+        fridgeItems[index];
+
+    const oldWeight =
+        item.weight;
+
+    const updatedWeight =
         Number(newWeight);
+
+    const delta =
+        oldWeight - updatedWeight;
+
+
+    item.weight =
+        updatedWeight;
+
+
+    if (Math.abs(delta) >= DETECTION_THRESHOLD) {
+
+        if (delta > 0) {
+
+            logActivity(
+                `📷 Camera detected ${item.name} removed — ${Math.round(delta)}g used`
+            );
+
+        } else {
+
+            logActivity(
+                `📷 Camera detected ${item.name} added — ${Math.round(-delta)}g restocked`
+            );
+
+        }
+
+    }
 
 
     saveData();
@@ -336,8 +530,38 @@ function updateLimit(
     newLimit
 ) {
 
-    pantryItems[index].limit =
+    fridgeItems[index].limit =
         Number(newLimit);
+
+
+    saveData();
+
+    renderApp();
+}
+
+
+// =====================================
+// CALIBRATION
+// =====================================
+
+// Captures the current weight as the item's known "full"
+// weight, the way the real flow works: place the item on
+// the sensor, select it in the app, and lock in that
+// reading as its calibrated max.
+
+function calibrateItem(index) {
+
+    const item =
+        fridgeItems[index];
+
+
+    item.maxWeight =
+        item.weight;
+
+
+    logActivity(
+        `📷 Calibrated ${item.name} — full weight set to ${Math.round(item.weight)}g`
+    );
 
 
     saveData();
@@ -361,14 +585,14 @@ function isLow(item) {
 
 
 // =====================================
-// PANTRY
+// FRIDGE
 // =====================================
 
-function renderPantry() {
+function renderFridge() {
 
     const container =
         document.getElementById(
-            "pantryItems"
+            "fridgeItems"
         );
 
 
@@ -376,7 +600,7 @@ function renderPantry() {
 
 
     if (
-        pantryItems.length === 0
+        fridgeItems.length === 0
     ) {
 
         container.innerHTML = `
@@ -384,11 +608,11 @@ function renderPantry() {
             <div class="empty-message">
 
                 <div class="emoji">
-                    🥫
+                    🧊
                 </div>
 
                 <h3>
-                    Your pantry is empty
+                    Your fridge is empty
                 </h3>
 
                 <p>
@@ -404,7 +628,7 @@ function renderPantry() {
     }
 
 
-    pantryItems.forEach(
+    fridgeItems.forEach(
         (item, index) => {
 
             const low =
@@ -418,23 +642,26 @@ function renderPantry() {
 
 
             /*
-             * Progress is relative to
-             * twice the user's threshold.
-             *
-             * At threshold = about 50%.
+             * If the item has been calibrated,
+             * progress is relative to its real
+             * captured full weight. Otherwise we
+             * fall back to twice the threshold as
+             * a rough estimate (at threshold = 50%).
              */
+
+            const capacity =
+                item.maxWeight && item.maxWeight > 0
+                    ? item.maxWeight
+                    : item.limit * 2;
 
             let percentage;
 
-            if (item.limit > 0) {
+            if (capacity > 0) {
 
                 percentage =
                     (
                         item.weight /
-                        (
-                            item.limit *
-                            2
-                        )
+                        capacity
                     ) * 100;
 
             } else {
@@ -456,7 +683,7 @@ function renderPantry() {
 
             container.innerHTML += `
 
-                <div class="pantry-card">
+                <div class="fridge-card">
 
                     <div class="item-top">
 
@@ -507,7 +734,13 @@ function renderPantry() {
 
 
                     <div class="weight-label">
-                        Current measured weight
+
+                        ${
+                            item.maxWeight
+                            ? `Calibrated full weight: ${Math.round(item.maxWeight)}g`
+                            : "Not calibrated yet"
+                        }
+
                     </div>
 
 
@@ -567,6 +800,20 @@ function renderPantry() {
                                 )
                             "
                         >
+
+
+                        <button
+                            class="delete-button"
+                            style="margin-top: 10px;"
+
+                            onclick="
+                                calibrateItem(
+                                    ${index}
+                                )
+                            "
+                        >
+                            📌 Capture as Full
+                        </button>
 
                     </div>
 
@@ -660,7 +907,7 @@ function renderGroceryList() {
 
 
     const lowItems =
-        pantryItems.filter(
+        fridgeItems.filter(
             item =>
                 isLow(item)
         );
@@ -770,7 +1017,7 @@ function renderGroceryList() {
 function renderDashboard() {
 
     const lowItems =
-        pantryItems.filter(
+        fridgeItems.filter(
             item =>
                 isLow(item)
         );
@@ -779,7 +1026,7 @@ function renderDashboard() {
     document.getElementById(
         "totalItems"
     ).textContent =
-        pantryItems.length;
+        fridgeItems.length;
 
 
     document.getElementById(
@@ -810,7 +1057,7 @@ function renderDashboard() {
                 </div>
 
                 <h3>
-                    Pantry looking good!
+                    Fridge looking good!
                 </h3>
 
                 <p>
@@ -822,61 +1069,64 @@ function renderDashboard() {
 
         `;
 
-        return;
+    } else {
+
+        lowItems.forEach(
+            item => {
+
+                const icon =
+                    getFoodIcon(
+                        item.name
+                    );
+
+
+                container.innerHTML += `
+
+                    <div class="grocery-item">
+
+                        <div class="food-icon">
+                            ${icon}
+                        </div>
+
+
+                        <div class="grocery-info">
+
+                            <h3>
+                                ${item.name}
+                            </h3>
+
+                            <p>
+
+                                Only
+
+                                ${Math.round(
+                                    item.weight
+                                )} g
+
+                                remaining
+
+                            </p>
+
+                        </div>
+
+
+                        <span
+                            class="status low"
+                        >
+                            LOW
+                        </span>
+
+                    </div>
+
+                `;
+
+            }
+        );
+
     }
 
 
-    lowItems.forEach(
-        item => {
-
-            const icon =
-                getFoodIcon(
-                    item.name
-                );
-
-
-            container.innerHTML += `
-
-                <div class="grocery-item">
-
-                    <div class="food-icon">
-                        ${icon}
-                    </div>
-
-
-                    <div class="grocery-info">
-
-                        <h3>
-                            ${item.name}
-                        </h3>
-
-                        <p>
-
-                            Only
-
-                            ${Math.round(
-                                item.weight
-                            )} g
-
-                            remaining
-
-                        </p>
-
-                    </div>
-
-
-                    <span
-                        class="status low"
-                    >
-                        LOW
-                    </span>
-
-                </div>
-
-            `;
-
-        }
-    );
+    renderActivityFeed();
 
 }
 
@@ -889,7 +1139,7 @@ function renderApp() {
 
     renderDashboard();
 
-    renderPantry();
+    renderFridge();
 
     renderGroceryList();
 
@@ -897,197 +1147,3 @@ function renderApp() {
 
 
 renderApp();
-
-// =====================================
-// PROFILE
-// =====================================
-
-let profile =
-    JSON.parse(
-        localStorage.getItem(
-            "smartPantryProfile"
-        )
-    ) || {
-        name: "Prashansa",
-        email: ""
-    };
-
-
-function openProfile() {
-
-    document
-        .querySelectorAll(".page")
-        .forEach(page => {
-
-            page.classList.remove(
-                "active"
-            );
-
-        });
-
-
-    document
-        .getElementById(
-            "profilePage"
-        )
-        .classList.add(
-            "active"
-        );
-
-
-    document
-        .querySelectorAll(
-            ".nav-button"
-        )
-        .forEach(button => {
-
-            button.classList.remove(
-                "active"
-            );
-
-        });
-
-
-    loadProfile();
-
-}
-
-
-function closeProfile() {
-
-    document
-        .getElementById(
-            "profilePage"
-        )
-        .classList.remove(
-            "active"
-        );
-
-
-    document
-        .getElementById(
-            "dashboardPage"
-        )
-        .classList.add(
-            "active"
-        );
-
-
-    const homeButton =
-        document.querySelector(
-            ".nav-button"
-        );
-
-
-    if (homeButton) {
-        homeButton.classList.add(
-            "active"
-        );
-    }
-
-}
-
-
-function saveProfile() {
-
-    const name =
-        document
-            .getElementById(
-                "profileName"
-            )
-            .value
-            .trim();
-
-
-    const email =
-        document
-            .getElementById(
-                "profileEmail"
-            )
-            .value
-            .trim();
-
-
-    if (name === "") {
-
-        alert(
-            "Please enter your name."
-        );
-
-        return;
-    }
-
-
-    profile.name = name;
-
-    profile.email = email;
-
-
-    localStorage.setItem(
-        "smartPantryProfile",
-        JSON.stringify(profile)
-    );
-
-
-    loadProfile();
-
-
-    alert(
-        "Profile saved!"
-    );
-
-}
-
-
-function loadProfile() {
-
-    const initial =
-        profile.name
-            ? profile.name
-                .charAt(0)
-                .toUpperCase()
-            : "P";
-
-
-    document.getElementById(
-        "profileInitial"
-    ).textContent =
-        initial;
-
-
-    document.getElementById(
-        "largeProfileInitial"
-    ).textContent =
-        initial;
-
-
-    document.getElementById(
-        "displayName"
-    ).textContent =
-        profile.name;
-
-
-    document.getElementById(
-        "displayEmail"
-    ).textContent =
-        profile.email ||
-        "Smart Pantry User";
-
-
-    document.getElementById(
-        "profileName"
-    ).value =
-        profile.name;
-
-
-    document.getElementById(
-        "profileEmail"
-    ).value =
-        profile.email;
-
-}
-
-
-// Load profile when app starts
-
-loadProfile();
